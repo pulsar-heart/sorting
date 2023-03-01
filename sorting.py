@@ -9,7 +9,6 @@ If cmp(a, b) returns -1, then a < b;
 if cmp(a, b) returns  1, then a > b;
 if cmp(a, b) returns  0, then a == b.
 '''
-
 import random
 
 def cmp_standard(a, b):
@@ -56,7 +55,7 @@ def cmp_last_digit(a, b):
     return cmp_standard(a % 10, b % 10)
 
 
-def _merged(xs, ys, cmp=cmp_standard):
+def _merged(xs_in, ys_in, cmp=cmp_standard):
     '''
     Assumes that both xs and ys are sorted,
     and returns a new list containing the elements of both xs and ys.
@@ -77,8 +76,33 @@ def _merged(xs, ys, cmp=cmp_standard):
     >>> _merged([1, 3, 5], [2, 4, 6])
     [1, 2, 3, 4, 5, 6]
     '''
-
-
+    import copy
+    xs = copy.copy(xs_in)
+    ys = copy.copy(ys_in)
+    if len(xs) == 0 and len(ys) == 0:
+        return []
+    list1 = []
+    def go(xs, ys):
+        if len(xs) == 0 and len(ys) == 0:
+            return list1
+        if len(xs) == 0:
+            ys.reverse()
+            return list1 + ys
+        if len(ys) == 0:
+            xs.reverse()
+            return list1 + xs
+        if cmp(xs[-1], ys[-1]) <=0:
+            element = ys.pop()
+            list1.append(element)
+        else:
+            element = xs.pop()
+            list1.append(element)
+        return go(xs, ys)
+    list2 = go(xs, ys)
+    list2.reverse()
+    return list2
+    
+        
 def merge_sorted(xs, cmp=cmp_standard):
     '''
     Merge sort is the standard O(n log n) sorting algorithm.
@@ -95,9 +119,23 @@ def merge_sorted(xs, cmp=cmp_standard):
     You should return a sorted version of the input list xs.
     You should not modify the input list xs in any way.
     '''
+   
+    if len(xs) <= 1:
+        return xs
+    mid = len(xs) // 2
+    left = xs[:mid]
+    right = xs[mid:]
+    print(left)
+    print(right)
+    left_sorted = merge_sorted(left, cmp)
+    right_sorted = merge_sorted(right, cmp)
+    print('sorted')
+    print(left_sorted)
+    print(right_sorted)
+    return _merged(left_sorted, right_sorted, cmp)
+    
 
-
-def quick_sorted(xs, cmp=cmp_standard):
+def quick_sorted(xs_in, cmp=cmp_standard):
     '''
     Quicksort is like mergesort,
     but it uses a different strategy to split the list.
@@ -120,7 +158,20 @@ def quick_sorted(xs, cmp=cmp_standard):
     You should return a sorted version of the input list xs.
     You should not modify the input list xs in any way.
     '''
+    import copy
+    import random
+    xs = copy.copy(xs)
+    if len(xs) <= 1:
+        return xs
+    else:
+        p_index = random.randrange(len(xs))
+        p = xs[p_index]
+        greater = quick_sorted([x for x in xs if x > p], cmp)
+        equal = quick_sorted([x for x in xs if x == p], cmp)
+        less = quick_sorted([x for x in xs if x < p], cmp)
+        return less + equal + greater
 
+        
 
 def quick_sort(xs, cmp=cmp_standard):
     '''
