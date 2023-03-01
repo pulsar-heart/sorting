@@ -91,7 +91,7 @@ def _merged(xs_in, ys_in, cmp=cmp_standard):
         if len(ys) == 0:
             xs.reverse()
             return list1 + xs
-        if cmp(xs[-1], ys[-1]) <=0:
+        if cmp(xs[-1], ys[-1]) <= 0:
             element = ys.pop()
             list1.append(element)
         else:
@@ -101,8 +101,8 @@ def _merged(xs_in, ys_in, cmp=cmp_standard):
     list2 = go(xs, ys)
     list2.reverse()
     return list2
-    
-        
+
+
 def merge_sorted(xs, cmp=cmp_standard):
     '''
     Merge sort is the standard O(n log n) sorting algorithm.
@@ -119,7 +119,7 @@ def merge_sorted(xs, cmp=cmp_standard):
     You should return a sorted version of the input list xs.
     You should not modify the input list xs in any way.
     '''
-   
+
     if len(xs) <= 1:
         return xs
     mid = len(xs) // 2
@@ -133,14 +133,14 @@ def merge_sorted(xs, cmp=cmp_standard):
     print(left_sorted)
     print(right_sorted)
     return _merged(left_sorted, right_sorted, cmp)
-    
+
 
 def quick_sorted(xs_in, cmp=cmp_standard):
     '''
     Quicksort is like mergesort,
     but it uses a different strategy to split the list.
     Instead of splitting the list down the middle,
-    a "pivot" value is randomly selected, 
+    a "pivot" value is randomly selected,
     and the list is split into a "less than" sublist and a "greater than" sublist.
 
     The pseudocode is:
@@ -159,8 +159,7 @@ def quick_sorted(xs_in, cmp=cmp_standard):
     You should not modify the input list xs in any way.
     '''
     import copy
-    import random
-    xs = copy.copy(xs)
+    xs = copy.copy(xs_in)
     if len(xs) <= 1:
         return xs
     else:
@@ -171,7 +170,6 @@ def quick_sorted(xs_in, cmp=cmp_standard):
         less = quick_sorted([x for x in xs if x < p], cmp)
         return less + equal + greater
 
-        
 
 def quick_sort(xs, cmp=cmp_standard):
     '''
