@@ -11,6 +11,7 @@ if cmp(a, b) returns  0, then a == b.
 '''
 import random
 
+
 def cmp_standard(a, b):
     '''
     used for sorting from lowest to highest
@@ -82,6 +83,7 @@ def _merged(xs_in, ys_in, cmp=cmp_standard):
     if len(xs) == 0 and len(ys) == 0:
         return []
     list1 = []
+
     def go(xs, ys):
         if len(xs) == 0 and len(ys) == 0:
             return list1
