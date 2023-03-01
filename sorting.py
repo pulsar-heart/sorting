@@ -167,9 +167,9 @@ def quick_sorted(xs_in, cmp=cmp_standard):
     else:
         p_index = random.randrange(len(xs))
         p = xs[p_index]
-        greater = quick_sorted([x for x in xs if x > p], cmp)
-        equal = quick_sorted([x for x in xs if x == p], cmp)
-        less = quick_sorted([x for x in xs if x < p], cmp)
+        greater = quick_sorted([x for x in xs if cmp(x, p) == 1], cmp)
+        equal = [x for x in xs if x == p]
+        less = quick_sorted([x for x in xs if cmp(x, p) == -1], cmp)
         return less + equal + greater
 
 
